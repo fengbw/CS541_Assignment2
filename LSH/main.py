@@ -8,17 +8,18 @@ if __name__ == "__main__":
 
     # important parameters
     number_of_queries = 1000
-    number_of_tables = 50
+    number_of_tables = 10
 
     dataset_file='game_dataset.csv'
     df_data=pd.read_csv(dataset_file,index_col=0)
     df_data=df_data.astype(np.float32)
-    df_data=df_data[:9999]
+    df_data=df_data[:10000]
     np_data=df_data[['x','y']].values
 
     # falconn requires use float32
     assert np_data.dtype==np.float32
 
+    
     #using the cosine similarity, normalize data
     np_data/= np.linalg.norm(np_data,axis=1).reshape(-1,1)
 

@@ -24,9 +24,6 @@ if __name__ == "__main__":
         choice = int(input("input:"))
         print(choice)
         if(choice == -3):
-            center,range_input=Modify_setting()
+            center, range_input = Modify_setting()
         if(choice == -2):
             print (center, range_input)
-        
-        
-    

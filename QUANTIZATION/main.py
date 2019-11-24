@@ -15,9 +15,9 @@ if __name__ == "__main__":
     # Instantiate with M=8 sub-spaces
     pq = nanopq.PQ(M=8)
 
-    t1 = time.time()
     # Train codewords
-    pq.fit(data,seed = 1000)
+    t1 = time.time()
+    pq.fit(data[:np.shape(data)[0]//10],seed = 1000)
     print(time.time()-t1)
 
     t2 = time.time()

@@ -6,11 +6,6 @@ import pandas as pd
 
 if __name__ == "__main__":
 
-    dataset_file="dataset/P53_test.ds"
-    
-
-
-'''
     # important parameters
     number_of_queries = 1000
     number_of_tables = 10
@@ -116,4 +111,3 @@ if __name__ == "__main__":
 
     print('Query time: {}'.format((t2 - t1) / len(queries)))
     print('Precision: {}'.format(float(score) / len(queries)))
-'''

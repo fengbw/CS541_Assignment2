@@ -1,3 +1,5 @@
 P53.ds
 P53.q
 venv/
+LSH/example/dataset/
+.DS_Store

@@ -2,7 +2,7 @@ import nanopq
 import numpy as np
 import time
 import heapq
-from dataReader import dataReader
+from dataReader import *
 
 if __name__ == "__main__":
     data = np.array(dataReader("../P53_test.ds"),dtype = np.float32)
@@ -33,5 +33,5 @@ if __name__ == "__main__":
         res.append(np.argsort(dists)[:5])
     print(res)
 
-    # exact scan
-    distsExact = np.linalg.norm(data - query, axis=1) ** 2
+    # # exact scan
+    # distsExact = np.linalg.norm(data - query, axis=1) ** 2

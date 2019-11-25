@@ -20,6 +20,7 @@ if __name__ == "__main__":
     test_file="dataset/P53_test.ds"
     test = dataReader(test_file)
     test = np.array(test,dtype=np.float32)
+    np.save("dataset/testset/size"+str(len(queries)),queries)
 
     '''
     train = np.load("dataset/trainset/size28059.npy")
@@ -30,8 +31,9 @@ if __name__ == "__main__":
 
 
     # important parameters
-    number_of_queries = 1000
-    number_of_tables = 10
+    number_of_tables = 20
+    k_neighbors=5
+
 
     # falconn requires use float32
     assert train.dtype == np.float32
@@ -45,10 +47,7 @@ if __name__ == "__main__":
     queries=test
     dataset=train
 
-    #save dataset
-    np.save("dataset/testset/size"+str(len(queries)),queries)
 
-    k_neighbors=5
 
     print('Solving queries using linear scan')
     '''
@@ -62,6 +61,7 @@ if __name__ == "__main__":
     '''
     answers=np.load("groundtruth/linearScanResult3000.npy")
     answers=answers[:len(queries)]
+    answers=answers[:,:k_neighbors]
 
     #cosine distance
     #answers = []
@@ -99,6 +99,7 @@ if __name__ == "__main__":
 
 
     query_object = table.construct_query_object()
+    query_object.set_num_probes(50)
 
     print("finding nearset neighbors")
     t1=timeit.default_timer()
@@ -108,6 +109,7 @@ if __name__ == "__main__":
     t2=timeit.default_timer()
     print("Done")
     print("per query time:{}".format((t2-t1)/len(result)))
+    print(answers.shape)
     print("precision:",compareResult(answers,result))
 
 '''

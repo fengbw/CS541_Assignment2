@@ -30,12 +30,34 @@ record the parameters and result of each test here
     test size: 3000  
     neighbors: 5  
     LSH type: CrossPolytope  
-    \# of probes: 50  
-    \# of hashing tables: 50  
+    \# of probes: 10  
+    \# of hashing tables: 10  
     \# of hashing functions: 10  
-    precision: 0.996933  
-    index time: 3.523504 s  
-    per query time: 0.008140510468666737 s
+    precision: 0.9290  
+    index time: 0.805405843 s  
+    per query time: 0.00242562133 s
+
+4. > train size: 28059  
+    test size: 3000  
+    neighbors: 5  
+    LSH type: CrossPolytope  
+    \# of probes: 50  
+    \# of hashing tables: 10  
+    \# of hashing functions: 10  
+    index time: 0.799077029 s  
+    per query time: 0.006161839101999999 s
+    precision: 0.9914  
+
+5. > train size: 28059  
+    test size: 3000  
+    neighbors: 5  
+    LSH type: Hyperplane  
+    \# of probes: 50  
+    \# of hashing tables: 10  
+    \# of hashing functions: 10  
+    index time: 2.1247730270000003 s  
+    per query time: 0.005037063294333333 s
+    precision: 0.9629333333333333  
 
 ## Hnswilib
 

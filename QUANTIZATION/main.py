@@ -1,6 +1,7 @@
 import nanopq
 import numpy as np
 import time
+import heapq
 from dataReader import dataReader
 
 if __name__ == "__main__":
@@ -17,15 +18,17 @@ if __name__ == "__main__":
 
     # Train codewords
     t1 = time.time()
-    pq.fit(data[:np.shape(data)[0]//10],seed = 1000)
+    pq.fit(vecs=data[::], seed= 1212)
     print(time.time()-t1)
 
     t2 = time.time()
     # Encode to PQ-codes
     X_code = pq.encode(data)  # (10000, 8) with dtype=np.uint8
     print("Encode time is ", time.time()-t2)
-
     # Results: create a distance table online, and compute Asymmetric Distance to each PQ-code
     t3 = time.time()
-    dists = pq.dtable(query).adist(X_code)  # (10000, )
-    print("query time is ",time.time()-t3)
+    res = []
+    for i in range(5):
+        dists = pq.dtable(data[i]).adist(X_code)  # (10000, )
+        res.append(np.argsort(dists)[:5])
+    print(res)

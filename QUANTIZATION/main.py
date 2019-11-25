@@ -32,3 +32,6 @@ if __name__ == "__main__":
         dists = pq.dtable(data[i]).adist(X_code)  # (10000, )
         res.append(np.argsort(dists)[:5])
     print(res)
+
+    # exact scan
+    distsExact = np.linalg.norm(data - query, axis=1) ** 2

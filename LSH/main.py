@@ -3,19 +3,23 @@ import timeit
 import math
 import numpy as np
 import pandas as pd
-from dataReader import dataReader 
+
+import sys
+import os
+sys.path.append(os.getcwd())
+
+from utils import *
 
 
 if __name__ == "__main__":
 
-    '''train_file="dataset/P53_train.ds"
+    train_file="dataset/P53_train.ds"
     train = dataReader(train_file)
     train = np.array(train,dtype=np.float32)
-    '''
+    
     test_file="dataset/P53_test.ds"
     test = dataReader(test_file)
     test = np.array(test,dtype=np.float32)
-    train=test.copy()
 
     print(train.shape)
 
@@ -23,7 +27,7 @@ if __name__ == "__main__":
 
     # important parameters
     number_of_queries = 1000
-    number_of_tables = 15
+    number_of_tables = 50
 
     # falconn requires use float32
     assert train.dtype == np.float32
@@ -39,12 +43,13 @@ if __name__ == "__main__":
 
     print('Solving queries using linear scan')
     t1 = timeit.default_timer()
-    answers=[]
+    answers=linearScan(dataset,queries,5)
 
-    for query in queries:
-        answers.append(np.dot(dataset,query).argsort()[::-1][:5])
+    #cosine distance
+    #answers = []
+    #for query in queries:
+    #    answers.append(np.dot(dataset, query).argmax())
     
-    print(answers)
     t2=timeit.default_timer()
     print("done")
     print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
@@ -80,15 +85,18 @@ if __name__ == "__main__":
 
     query_object = table.construct_query_object()
 
+    result=[]
     for query in queries:
-        print(query_object.find_k_nearest_neighbors(query,5))
+        result.append(query_object.find_k_nearest_neighbors(query,5))
 
+    print(compareResult(answers,result))
 
+'''
     # find the smallest number of probes to achieve accuracy 0.9
     # using the binary search
     print('Choosing number of probes')
     number_of_probes = number_of_tables
-'''
+
     def evaluate_number_of_probes(number_of_probes):
         query_object.set_num_probes(number_of_probes)
         score = 0

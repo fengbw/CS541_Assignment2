@@ -1,5 +1,3 @@
-import sys
-sys.path.append("..")
 from dataReader import *
 import hnswlib
 import numpy as np

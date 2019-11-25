@@ -6,7 +6,7 @@ import numpy as np
 import time
 
 def hnsw():
-    dataset = dataReader("../P53_train.ds")
+    dataset = dataReader("../P53_test.ds")
     data = np.array(dataset, dtype = np.float32)
     print(data.shape)
     data_labels = np.arange(len(dataset))
@@ -15,23 +15,23 @@ def hnsw():
 
     # Initing index - the maximum number of elements should be known beforehand
     time1 = time.time()
-    p.init_index(max_elements = len(dataset), ef_construction = 100, M = 32)
+    p.init_index(max_elements = len(dataset), ef_construction = 200, M = 32)
 
     # Element insertion (can be called several times):
     p.add_items(data, data_labels)
 
     # Controlling the recall by setting ef:
-    p.set_ef(10) # ef should always be > k
+    p.set_ef(50) # ef should always be > k
     time2 = time.time()
     print("index time is :", time2 - time1)
 
     # Query dataset, k - number of closest elements (returns 2 numpy arrays)
-    labels, distances = p.knn_query(data[0], k = 2)
+    labels, distances = p.knn_query(data[:5], k = 5)
     time3 = time.time()
     print("query time is :", time3 - time2)
 
-    print(labels[0])
-    print(distances[0])
+    print(labels)
+    print(distances)
 
 
 

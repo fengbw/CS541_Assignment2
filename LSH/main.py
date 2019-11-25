@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # important parameters
     number_of_tables = 10
-    k_neighbors=5
+    k_neighbors=100
     number_of_probes=10
     number_of_function=10
 
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     test/= np.linalg.norm(test,axis=1).reshape(-1,1)
  
     #queries is test, dataset is train
-    queries=test
-    dataset=train
+    queries=test[:2500]
+    dataset=train[:25000]
 
 
 
@@ -60,8 +60,8 @@ if __name__ == "__main__":
     t2=timeit.default_timer()
     print("done")
     print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
-    '''
-    '''
+    
+
     answers=np.load("groundtruth/linearScanResult3000.npy")
     answers=answers[:len(queries)]
     answers=answers[:,:k_neighbors]
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     answers = []
     for query in queries:
         answers.append(np.dot(dataset, query).argmax())
-
+    
     
     print('Centering the dataset and queries')
     center = np.mean(dataset, axis=0)

@@ -4,38 +4,52 @@ import math
 import numpy as np
 import pandas as pd
 
+import sys
+import os
+sys.path.append(os.getcwd())
+
+from utils import *
+
+
 if __name__ == "__main__":
 
-    dataset_file="dataset/P53_test.ds"
+    train_file="dataset/P53_train.ds"
+    train = dataReader(train_file)
+    train = np.array(train,dtype=np.float32)
     
+    test_file="dataset/P53_test.ds"
+    test = dataReader(test_file)
+    test = np.array(test,dtype=np.float32)
+
+    print(train.shape)
 
 
-'''
+
     # important parameters
     number_of_queries = 1000
-    number_of_tables = 10
-
-    dataset_file='game_dataset.csv'
-    df_data=pd.read_csv(dataset_file,index_col=0)
-    df_data=df_data.astype(np.float32)
-    df_data=df_data[:10000]
-    np_data=df_data[['x','y']].values
+    number_of_tables = 50
 
     # falconn requires use float32
-    assert np_data.dtype==np.float32
-
+    assert train.dtype == np.float32
+    assert test.dtype == np.float32
     
     #using the cosine similarity, normalize data
-    np_data/= np.linalg.norm(np_data,axis=1).reshape(-1,1)
-
-    queries=np.array(np_data[len(np_data)-number_of_queries:])
-    dataset=np.array(np_data[:len(np_data)-number_of_queries])
+    train/= np.linalg.norm(train,axis=1).reshape(-1,1)
+    test/= np.linalg.norm(test,axis=1).reshape(-1,1)
+ 
+    #queries is test, dataset is train
+    queries=test[:5]
+    dataset=train
 
     print('Solving queries using linear scan')
     t1 = timeit.default_timer()
-    answers=[]
-    for query in queries:
-        answers.append(np.dot(dataset,query).argmax())
+    answers=linearScan(dataset,queries,5)
+
+    #cosine distance
+    #answers = []
+    #for query in queries:
+    #    answers.append(np.dot(dataset, query).argmax())
+    
     t2=timeit.default_timer()
     print("done")
     print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
@@ -71,6 +85,13 @@ if __name__ == "__main__":
 
     query_object = table.construct_query_object()
 
+    result=[]
+    for query in queries:
+        result.append(query_object.find_k_nearest_neighbors(query,5))
+
+    print(compareResult(answers,result))
+
+'''
     # find the smallest number of probes to achieve accuracy 0.9
     # using the binary search
     print('Choosing number of probes')
@@ -105,7 +126,6 @@ if __name__ == "__main__":
     print('Done')
     print('{} probes'.format(number_of_probes))
 
-
     # final evaluation
     t1 = timeit.default_timer()
     score = 0
@@ -113,6 +133,7 @@ if __name__ == "__main__":
         if query_object.find_nearest_neighbor(query) == answers[i]:
             score += 1
     t2 = timeit.default_timer()
+
 
     print('Query time: {}'.format((t2 - t1) / len(queries)))
     print('Precision: {}'.format(float(score) / len(queries)))

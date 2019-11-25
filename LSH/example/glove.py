@@ -43,8 +43,7 @@ if __name__ == '__main__':
         answers.append(np.dot(dataset, query).argmax())
     t2 = timeit.default_timer()
     print('Done')
-    print('Linear scan time: {} per query'.format((t2 - t1) / float(
-        len(queries))))
+    print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
 
     # Center the dataset and the queries: this improves the performance of LSH quite a bit.
     print('Centering the dataset and queries')

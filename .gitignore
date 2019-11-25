@@ -6,3 +6,4 @@ venv/
 LSH/example/dataset/
 .DS_Store
 dataset/
+__pycache__/

@@ -14,7 +14,7 @@ if __name__ == "__main__":
     query = np.random.random((dim,)).astype(np.float32)  # a query vector
 
     # Instantiate with M=8 sub-spaces
-    pq = nanopq.PQ(M=8)
+    pq = nanopq.PQ(M=4)
 
     # Train codewords
     t1 = time.time()
@@ -32,6 +32,7 @@ if __name__ == "__main__":
         dists = pq.dtable(data[i]).adist(X_code)  # (10000, )
         res.append(np.argsort(dists)[:5])
     print(res)
+    print("query time is ", (time.time()-t3)/5)
 
     # # exact scan
     # distsExact = np.linalg.norm(data - query, axis=1) ** 2

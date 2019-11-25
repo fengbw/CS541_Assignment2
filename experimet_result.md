@@ -4,13 +4,38 @@ record the parameters and result of each test here
 
 ## FALCONN
 
-1. > train size: 27000  
+1. > train size: 28059  
+    test size: 5  
+    neighbors: 5  
+    LSH type: CrossPolytope  
+    \# of probes: 50  
+    \# of hashing tables: 50  
+    \# of hashing functions: 10  
+    precision: 1.0  
+    index time: 3.43351 s  
+    per query time: 0.043059 s
+
+2. > train size: 28059  
     test size: 3000  
-    neighbors: 10  
-    LSH type: Hypberplane  
-    precision: 0.96  
-    index time: 1.0034 s  
-    per query time: 0.000158 s
+    neighbors: 5  
+    LSH type: CrossPolytope  
+    \# of probes: 50  
+    \# of hashing tables: 50  
+    \# of hashing functions: 10  
+    precision: 0.996933  
+    index time: 3.523504 s  
+    per query time: 0.008140510468666737 s
+
+3. > train size: 28059  
+    test size: 3000  
+    neighbors: 5  
+    LSH type: CrossPolytope  
+    \# of probes: 50  
+    \# of hashing tables: 50  
+    \# of hashing functions: 10  
+    precision: 0.996933  
+    index time: 3.523504 s  
+    per query time: 0.008140510468666737 s
 
 ## Hnswilib
 

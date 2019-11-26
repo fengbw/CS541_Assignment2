@@ -7,3 +7,4 @@ LSH/example/dataset/
 .DS_Store
 dataset/
 __pycache__/
+*.npy

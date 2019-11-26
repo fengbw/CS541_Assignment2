@@ -7,3 +7,5 @@ LSH/example/dataset/
 .DS_Store
 dataset/
 __pycache__/
+QUANTIZATION/test.npy
+QUANTIZATION/train.npy

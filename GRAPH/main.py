@@ -32,6 +32,5 @@ def hnsw():
     print(distances)
 
 
-
 if __name__ == "__main__":
     hnsw()

@@ -31,8 +31,10 @@ if __name__ == "__main__":
 
 
     # important parameters
-    number_of_tables = 20
-    k_neighbors=5
+    number_of_tables = 10
+    k_neighbors=100
+    number_of_probes=10
+    number_of_function=10
 
 
     # falconn requires use float32
@@ -44,8 +46,8 @@ if __name__ == "__main__":
     test/= np.linalg.norm(test,axis=1).reshape(-1,1)
  
     #queries is test, dataset is train
-    queries=test
-    dataset=train
+    queries=test[:2500]
+    dataset=train[:25000]
 
 
 
@@ -58,16 +60,17 @@ if __name__ == "__main__":
     t2=timeit.default_timer()
     print("done")
     print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
-    '''
+    
+
     answers=np.load("groundtruth/linearScanResult3000.npy")
     answers=answers[:len(queries)]
     answers=answers[:,:k_neighbors]
-
+    '''
     #cosine distance
-    #answers = []
-    #for query in queries:
-    #    answers.append(np.dot(dataset, query).argmax())
-
+    answers = []
+    for query in queries:
+        answers.append(np.dot(dataset, query).argmax())
+    
     
     print('Centering the dataset and queries')
     center = np.mean(dataset, axis=0)
@@ -87,7 +90,7 @@ if __name__ == "__main__":
     params_cp.num_setup_threads=0
     params_cp.storage_hash_table=falconn.StorageHashTable.BitPackedFlatHashTable
 
-    falconn.compute_number_of_hash_functions(10,params_cp)
+    falconn.compute_number_of_hash_functions(number_of_function,params_cp)
 
     print("contstruting the LSH table")
     t1=timeit.default_timer()
@@ -99,7 +102,7 @@ if __name__ == "__main__":
 
 
     query_object = table.construct_query_object()
-    query_object.set_num_probes(50)
+    query_object.set_num_probes(number_of_probes)
 
     print("finding nearset neighbors")
     t1=timeit.default_timer()
@@ -109,7 +112,6 @@ if __name__ == "__main__":
     t2=timeit.default_timer()
     print("Done")
     print("per query time:{}".format((t2-t1)/len(result)))
-    print(answers.shape)
     print("precision:",compareResult(answers,result))
 
 '''

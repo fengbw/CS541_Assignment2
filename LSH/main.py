@@ -16,23 +16,22 @@ if __name__ == "__main__":
     train_file="dataset/P53_train.ds"
     train = dataReader(train_file)
     train = np.array(train,dtype=np.float32)
-    np.save("dataset/trainset/size"+str(len(dataset)),dataset)
     test_file="dataset/P53_test.ds"
     test = dataReader(test_file)
     test = np.array(test,dtype=np.float32)
-    np.save("dataset/testset/size"+str(len(queries)),queries)
-
+    np.save("dataset/trainset/raw_train",train)
+    np.save("dataset/testset/raw_test",test)
     '''
-    train = np.load("dataset/trainset/size28059.npy")
-    test = np.load("dataset/testset/size3000.npy")
+    
+    train = np.load("dataset/trainset/raw_train.npy")
+    test = np.load("dataset/testset/raw_test.npy")
 
     print(train.shape)
 
 
-
     # important parameters
     number_of_tables = 10
-    k_neighbors=100
+    k_neighbors=5
     number_of_probes=10
     number_of_function=10
 
@@ -44,10 +43,10 @@ if __name__ == "__main__":
     #using the cosine similarity, normalize data
     train/= np.linalg.norm(train,axis=1).reshape(-1,1)
     test/= np.linalg.norm(test,axis=1).reshape(-1,1)
- 
+    
     #queries is test, dataset is train
-    queries=test[:2500]
-    dataset=train[:25000]
+    queries=test[:2800]
+    dataset=train[:28000]
 
 
 
@@ -70,6 +69,9 @@ if __name__ == "__main__":
     answers = []
     for query in queries:
         answers.append(np.dot(dataset, query).argmax())
+
+    np.save("groundtruth/linearScanResult"+str(len(dataset)),answers)
+
     
     
     print('Centering the dataset and queries')

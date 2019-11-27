@@ -47,7 +47,6 @@ def hnsw():
     print("query time is : {}".format((t3 - t2) / 3000))
     print("precision:",compareResult(result,labels))
 
-
 if __name__ == "__main__":
     hnsw()
     # result = np.load("../groundtruth/linearScanResult3000.npy")

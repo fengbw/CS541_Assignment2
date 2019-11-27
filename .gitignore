@@ -9,3 +9,5 @@ dataset/
 __pycache__/
 QUANTIZATION/test.npy
 QUANTIZATION/train.npy
+GRAPH/P53_test.npy
+Graph/P53_train.npy

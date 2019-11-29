@@ -33,7 +33,7 @@ if __name__ == "__main__":
     number_of_tables = 10
     k_neighbors=5
     number_of_probes=10
-    number_of_function=15
+    number_of_function=2
 
 
     # falconn requires use float32
@@ -48,19 +48,19 @@ if __name__ == "__main__":
     
  
     #using the cosine similarity, normalize data
-    #train/= np.linalg.norm(train,axis=1).reshape(-1,1)
-    #test/= np.linalg.norm(test,axis=1).reshape(-1,1)
+    train/= np.linalg.norm(train,axis=1).reshape(-1,1)
+    test/= np.linalg.norm(test,axis=1).reshape(-1,1)
     
     #queries is test, dataset is train
 
-
+    
 
     print('Solving queries using linear scan')
-    answers=np.load("groundtruth/linearScanResultEuclidean2800_28000.npy")
+    answers=np.load("groundtruth/linearScanResult28000.npy")
     answers=answers[:len(queries)]
     answers=answers[:,:k_neighbors]
-    
     '''
+    
     t1 = timeit.default_timer()
     answers=linearScan(dataset,queries,k_neighbors)
     np.save("groundtruth/linearScanResult"+str(len(queries)),answers)
@@ -68,22 +68,21 @@ if __name__ == "__main__":
     t2=timeit.default_timer()
     print("done")
     print('Linear scan time: {} per query'.format((t2 - t1) / float(len(queries))))
-    
+    '''
     #cosine distance
+    '''
     answers = []
     for query in queries:
-        answers.append(np.dot(dataset, query).argmax())
-
+        answers.append(np.argsort(np.dot(dataset, query))[::-1][:k_neighbors])
     np.save("groundtruth/linearScanResult"+str(len(dataset)),answers)
-    '''
-    
+    print(np.shape(answers))    
     '''
     print('Centering the dataset and queries')
     center = np.mean(dataset, axis=0)
     dataset -= center
     queries -= center
     print('Done')
-    '''
+    
     params_cp = falconn.LSHConstructionParameters()
     params_cp.dimension = len(dataset[0])
     params_cp.lsh_family=falconn.LSHFamily.CrossPolytope

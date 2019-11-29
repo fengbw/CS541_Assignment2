@@ -15,16 +15,20 @@ def hnsw():
     # train = np.array(train, dtype = np.float32)
     # np.save("P53_train", train)
     test = np.load("P53_test.npy")
+    test = test[:300]
     test_labels = np.arange(len(test))
     train = np.load("P53_train.npy")
+    train = train[:3000]
     train_labels = np.arange(len(train))
-    result = np.load("../groundtruth/linearScanResult3000.npy")
+    train /= np.linalg.norm(train,axis=1).reshape(-1,1)
+    test /= np.linalg.norm(test,axis=1).reshape(-1,1)
+    result = np.load("../groundtruth/linearScanResult300.npy")
     result = result[:len(test)]
     result = result[:,:5]
 
-    # items = [20, 50, 100, 200, 500]
+    # items = [2, 12, 32, 48, 100]
     # for item in items:
-    # print("----this is attribuate {} ---".format(item))
+    #     print("----this is attribuate {} ---".format(item))
     t1 = time.time()
     # Declaring index
     p = hnswlib.Index(space = 'l2', dim = len(train[0])) # possible options are l2, cosine or ip
@@ -40,7 +44,7 @@ def hnsw():
     # Query dataset, k - number of closest elements (returns 2 numpy arrays)
     labels, distances = p.knn_query(test, k = 5)
     t3 = time.time()
-    print("query time is : {}".format(t3 - t2))
+    print("query time is : {}".format((t3 - t2) / 3000))
     print("precision:",compareResult(result,labels))
 
 if __name__ == "__main__":
